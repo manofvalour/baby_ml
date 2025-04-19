@@ -1,4 +1,5 @@
 import sys
+from src.logger import logging
 
 def error_detail_info(error, error_detail:sys):
     exc_tb= error_detail.exc_info()[2]
@@ -6,8 +7,7 @@ def error_detail_info(error, error_detail:sys):
     file_name= exc_tb.tb_frame.f_code.co_filename
     lineno= exc_tb.tb_lineno
 
-    error_message = f"There was an error in the python script [{0}], line number [{1}], error message[{2}]".format(file_name, lineno, str(error))
-
+    error_message = "There was an error in the python script [{0}], line number [{1}], error message[{2}]".format(file_name, lineno, str(error))
     return error_message
 
 class CustomException(Exception):
