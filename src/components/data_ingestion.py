@@ -6,6 +6,7 @@ import os
 
 from src.logger import logging
 from src.exception import CustomException
+from src.components.data_transformation import DataTransformation
 import sys
 
 @dataclass
@@ -51,10 +52,14 @@ class DataIngestion:
             CustomException(e, sys)
             
 if __name__=="__main__":
-     try:
-          obj=DataIngestion()
-          obj.initiate_data_ingestion()
+    try:
+        obj=DataIngestion()
+        obj.initiate_data_ingestion()
+        transform= DataTransformation()
+        transform.data_transformation_obj()
+        transform.initiate_data_transformation(train_path='artifact/train_data.csv', 
+                                               test_path='artifact/test_data.csv')
      
-     except Exception as e:
-          raise CustomException(e, sys)
+    except Exception as e:
+        raise CustomException(e, sys)
      
