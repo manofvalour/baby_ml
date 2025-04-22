@@ -56,7 +56,6 @@ if __name__=="__main__":
         obj=DataIngestion()
         obj.initiate_data_ingestion()
         transform= DataTransformation()
-        transform.data_transformation_obj()
         transform.initiate_data_transformation(train_path='artifact/train_data.csv', 
                                                test_path='artifact/test_data.csv')
      
