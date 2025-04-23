@@ -7,6 +7,7 @@ import os
 from src.logger import logging
 from src.exception import CustomException
 from src.components.data_transformation import DataTransformation
+from src.components.model_training import ModelTrain
 import sys
 
 @dataclass
@@ -45,20 +46,20 @@ class DataIngestion:
 
             logging.info('Successfully split and stored the imported data')
 
-            return (self.ingestion_config.train_data_path, 
+            return (self.ingestion_config.train_data_path,
                     self.ingestion_config.test_data_path)   
 
         except Exception as e:
             CustomException(e, sys)
             
 if __name__=="__main__":
-    try:
-        obj=DataIngestion()
-        obj.initiate_data_ingestion()
-        transform= DataTransformation()
-        transform.initiate_data_transformation(train_path='artifact/train_data.csv', 
-                                               test_path='artifact/test_data.csv')
-     
-    except Exception as e:
-        raise CustomException(e, sys)
-     
+    obj=DataIngestion()
+    train_data, test_data= obj.initiate_data_ingestion()
+
+    data_transform= DataTransformation()
+    train_arr, test_arr,_= data_transform.initiate_data_transformation(train_data, test_data)
+        
+    modeltrainer= ModelTrain()
+    r2score= modeltrainer.initiate_model_training(train_arr, test_arr)
+
+    print(r2score)

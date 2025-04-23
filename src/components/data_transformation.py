@@ -34,16 +34,14 @@ class DataTransformation:
 
             int_pipeline = Pipeline(
                 steps=[
-                    ('SimpleImputer', SimpleImputer(strategy='median')),
+                    ('SimpleImputer', SimpleImputer(strategy='mean')),
                     ('scaler', StandardScaler())
                 ]
             )
 
             cat_pipeline = Pipeline(
                 steps=[
-                    ('simple_impute', SimpleImputer(strategy='most_frequent')),
-                    ('scaler', StandardScaler())
-                ]
+                    ('simple_impute', SimpleImputer(strategy='most_frequent'))]
             )
 
             logging.info('pipeline setup completed')
@@ -69,10 +67,9 @@ class DataTransformation:
         try:
             logging.info('importing the dataset')
 
-            train_data= pd.read_csv(train_path)
-            test_data= pd.read_csv(test_path)
-
-            preprocessor_obj = self.data_transformation_obj()
+            train_data= pd.read_csv(train_path) #train data
+            test_data= pd.read_csv(test_path) #test data
+            preprocessor_obj = self.data_transformation_obj() #preprocessor obj
 
             logging.info('data successfully imported')
 
@@ -93,10 +90,12 @@ class DataTransformation:
 
             logging.info('data has been successfully preprocessed')
 
-            logging.info('saving the data into pkl file')
-
-            train_arr= np.c_[train_preprocessed, np.array(train_dependent_variable)]
-            test_arr= np.c_[test_preprocessed, np.array(test_dependent_variable)]
+            train_arr= np.c_[
+                train_preprocessed, np.array(train_dependent_variable)
+                ]
+            test_arr= np.c_[
+                test_preprocessed, np.array(test_dependent_variable)
+                ]
 
             logging.info('train_arr and test_arr are created')
 
@@ -111,7 +110,7 @@ class DataTransformation:
             return (
                 train_arr,
                 test_arr,
-                preprocessor_obj
+                self.data_transformation_config.preprocessor_obj_filepath
             )
     
         except Exception as e:
